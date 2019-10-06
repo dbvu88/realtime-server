@@ -1,4 +1,10 @@
-const io = require("socket.io")();
+const app = require("express")();
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
+
+app.get("/", (req, res) => {
+  res.send("hello");
+});
 
 io.on("connection", client => {
   // on() - subscribe to events
@@ -12,5 +18,6 @@ io.on("connection", client => {
 });
 
 const port = process.env.PORT || 8000;
-io.listen(port);
-console.log("listening on port ", port);
+http.listen(port, () => {
+  console.log("listening on port ", port);
+});
