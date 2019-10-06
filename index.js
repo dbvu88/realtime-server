@@ -21,3 +21,5 @@ const port = process.env.PORT || 8000;
 http.listen(port, () => {
   console.log("listening on port ", port);
 });
+
+io.listen(http);
