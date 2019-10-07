@@ -15,9 +15,10 @@ const subscribeToDrawings = ({ client, connection }) => {
     .changes({ includeInitial: true })
     .run(connection)
     .then(cursor => {
-      cursor.each((err, drawingRow) =>
-        client.emit("drawing", drawingRow.new_val)
-      );
+      cursor.each((err, drawingRow) => {
+        console.log(drawingRow);
+        client.emit("drawing", drawingRow.new_val);
+      });
     });
 };
 
