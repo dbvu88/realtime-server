@@ -25,9 +25,27 @@ const subscribeToDrawings = ({ client, connection }) => {
 const handleLinePublish = ({ connection, lines }) => {
   // console.log("saving line to db");
   // console.log(lines);
+  const { drawingId } = lines;
   r.table("lines")
-    .insert({ ...lines, timestamp: new Date() })
-    .run(connection);
+    .contains(line => {
+      return line("drawingId").eq(drawingId);
+    })
+    .run(connection)
+    .then(rowFound => {
+      // console.log(rowFound);
+      if (rowFound) {
+        lines.timestamp = new Date();
+
+        r.table("lines")
+          .filter({ drawingId })
+          .update(lines)
+          .run(connection);
+      } else {
+        r.table("lines")
+          .insert({ ...lines, timestamp: new Date() })
+          .run(connection);
+      }
+    });
 };
 
 module.exports = {
