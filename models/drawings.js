@@ -16,16 +16,17 @@ const subscribeToDrawings = ({ client, connection }) => {
     .run(connection)
     .then(cursor => {
       cursor.each((err, drawingRow) => {
-        console.log(drawingRow);
+        // console.log(drawingRow);
         client.emit("drawing", drawingRow.new_val);
       });
     });
 };
 
-const handleLinePublish = ({ connection, line }) => {
+const handleLinePublish = ({ connection, lines }) => {
   // console.log("saving line to db");
+  // console.log(lines);
   r.table("lines")
-    .insert({ ...line, timestamp: new Date() })
+    .insert({ ...lines, timestamp: new Date() })
     .run(connection);
 };
 

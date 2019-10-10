@@ -52,7 +52,7 @@ r.connect({
       })
     );
 
-    client.on("publishLine", line => handleLinePublish({ connection, line }));
+    client.on("publishLine", lines => handleLinePublish({ connection, lines }));
   });
 });
 
