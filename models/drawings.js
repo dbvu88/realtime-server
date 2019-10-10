@@ -26,7 +26,7 @@ const handleLinePublish = ({ connection, lines }) => {
   // console.log("saving line to db");
   // console.log(lines);
   const { drawingId } = lines;
-  r.table("lines")
+  r.table("liners")
     .contains(line => {
       return line("drawingId").eq(drawingId);
     })
@@ -36,12 +36,12 @@ const handleLinePublish = ({ connection, lines }) => {
       if (rowFound) {
         lines.timestamp = new Date();
 
-        r.table("lines")
+        r.table("liners")
           .filter({ drawingId })
           .update(lines)
           .run(connection);
       } else {
-        r.table("lines")
+        r.table("liners")
           .insert({ ...lines, timestamp: new Date() })
           .run(connection);
       }
