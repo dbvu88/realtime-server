@@ -22,7 +22,15 @@ const subscribeToDrawings = ({ client, connection }) => {
     });
 };
 
+const handleLinePublish = ({ connection, line }) => {
+  // console.log("saving line to db");
+  r.table("lines")
+    .insert({ ...line, timestamp: new Date() })
+    .run(connection);
+};
+
 module.exports = {
   createDrawing,
-  subscribeToDrawings
+  subscribeToDrawings,
+  handleLinePublish
 };

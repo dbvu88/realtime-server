@@ -5,7 +5,11 @@ const io = require("socket.io")();
 const cors = require("cors");
 
 const r = require("rethinkdb");
-const { createDrawing, subscribeToDrawings } = require("./models/drawings");
+const {
+  createDrawing,
+  subscribeToDrawings,
+  handleLinePublish
+} = require("./models/drawings");
 app.use(cors());
 
 r.connect({
@@ -47,6 +51,8 @@ r.connect({
         connection
       })
     );
+
+    client.on("publishLine", line => handleLinePublish({ connection, line }));
   });
 });
 
